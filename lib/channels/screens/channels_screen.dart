@@ -1,7 +1,7 @@
 import 'dart:convert';
-
 import 'package:flutter/material.dart';
-import 'package:kanallartv_flutter/channels/widgets/item_channel.dart';
+import 'package:flutter/services.dart';
+import 'package:kanallartv_flutter/channels/screens/channel_watch_screen.dart';
 import 'package:kanallartv_flutter/channels/widgets/item_loading.dart';
 import '../models/channel_model.dart';
 import 'package:http/http.dart' as http;
@@ -31,6 +31,24 @@ class _ChannelsScreenState extends State<ChannelsScreen> {
     } else {
       throw Exception('Failed to load');
     }
+  }
+
+  void channelPressed(Channel channel) {
+    Navigator.push(
+      context,
+      MaterialPageRoute(
+        builder: (context) => ChannelWatchScreen(channel),
+      ),
+    );
+  }
+
+  @override
+  void initState() {
+    SystemChrome.setPreferredOrientations([
+      DeviceOrientation.portraitUp,
+      DeviceOrientation.portraitDown,
+    ]);
+    super.initState();
   }
 
   @override
@@ -65,9 +83,18 @@ class _ChannelsScreenState extends State<ChannelsScreen> {
                   crossAxisSpacing: 5.0,
                   mainAxisSpacing: 5.0,
                 ),
-                itemCount: 20,
+                itemCount: channelSnapshot.data!.length,
                 itemBuilder: (context, index) {
-                  return ItemChannel();
+                  return GestureDetector(
+                    onTap: () => channelPressed(channelSnapshot.data![index]),
+                    child: ClipRRect(
+                      borderRadius: BorderRadius.circular(10),
+                      child: Image.network(
+                        channelSnapshot.data![index].picture!,
+                        fit: BoxFit.cover,
+                      ),
+                    ),
+                  );
                 },
               );
             return Center(
