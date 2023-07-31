@@ -4,7 +4,7 @@ import 'package:flutter/material.dart';
 import 'provider/calculator_provider.dart';
 
 const buttonsBackgroundColor = Color(0xFF090E1C);
-const backgroundColor = Color(0xFF141A2F);
+const backgroundColor = Colors.black;
 const yellowColor = Color(0xFFF7CF32);
 const whiteColor = Colors.white;
 
